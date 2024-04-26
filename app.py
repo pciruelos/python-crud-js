@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from psycopg2 import connect, extras
 from cryptography.fernet import Fernet
 
@@ -28,6 +28,10 @@ def get_connection():
 #     result = cur.fetchone()
 #     print(result)
 #     return 'hola'
+@app.get('/')
+def home():
+    return send_file('static/index.html')
+
 
 @app.get('/api/users')
 def get_users():
@@ -106,7 +110,6 @@ def update_user(id):
     if user_updated is None:
         return jsonify({'message': 'user not found'}), 404
     return jsonify(user_updated)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
